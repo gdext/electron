@@ -1,0 +1,4 @@
+appId: com.gdext.editor
+publish:
+  provider: github
+  token: db17bb173af4557c972689895b669247963e88f7

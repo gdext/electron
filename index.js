@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+let winMain;
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -10,10 +11,10 @@ function createWindow() {
         icon: './icon.png'
     });
 
-    win.loadFile('./dist/index.html');
+    win.loadFile('./web/index.html');
     win.maximize();
-    win.webContents.openDevTools();
     Menu.setApplicationMenu(null);
+    winMain = win;
 }
 
 app.whenReady().then(createWindow);
@@ -21,7 +22,16 @@ app.whenReady().then(createWindow);
 app.on('window-all-closed', () => {
     if (process.platform != 'darwin') app.quit();
 });
-
+app.on('browser-window-focus', () => {
+    winMain = BrowserWindow.getFocusedWindow();
+})
 app.on('activate', () => {
     if(BrowserWindow.getAllWindows().length == 0) createWindow();
+});
+
+ipcMain.handle('openDevTools', (e) => {
+    winMain.webContents.toggleDevTools();
+});
+ipcMain.handle('toggleFullscreen', (e) => {
+    winMain.setFullScreen(!winMain.fullScreen);
 });

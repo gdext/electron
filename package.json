@@ -1,11 +1,14 @@
 {
-  "name": "electron-app",
-  "version": "0.1.0",
-  "description": "Electron app for gdext",
+  "name": "gdext",
+  "version": "0.1.1",
+  "description": "GDExt",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "npx electron-builder --dir  --publish never",
+    "deploy": "npx electron-builder --win --publish never",
+    "publish": "npx electron-builder --win --publish always"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,6 @@
   "homepage": "https://github.com/gdext/electron#readme",
   "devDependencies": {
     "electron": "^11.0.3"
-  }
+  },
+  "dependencies": {}
 }
