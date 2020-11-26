@@ -1,0 +1,24 @@
+{
+  "name": "electron-app",
+  "version": "0.1.0",
+  "description": "Electron app for gdext",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gdext/electron.git"
+  },
+  "keywords": [],
+  "author": "Ucrash",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gdext/electron/issues"
+  },
+  "homepage": "https://github.com/gdext/electron#readme",
+  "devDependencies": {
+    "electron": "^11.0.3"
+  }
+}
