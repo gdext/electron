@@ -16,9 +16,6 @@ function createWindow() {
     win.maximize();
     Menu.setApplicationMenu(null);
     winMain = win;
-
-    //check for updates
-    autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.whenReady().then(createWindow);
@@ -38,4 +35,19 @@ ipcMain.handle('openDevTools', (e) => {
 });
 ipcMain.handle('toggleFullscreen', (e) => {
     winMain.setFullScreen(!winMain.fullScreen);
+});
+ipcMain.handle('checkUpdates', () => {
+    //check for updates
+    autoUpdater.checkForUpdatesAndNotify();
+});
+ipcMain.handle('restartApp', () => {
+    autoUpdater.quitAndInstall();
+});
+
+autoUpdater.on('update-availible', () => {
+    winMain.webContents.send('updates');
+});
+
+autoUpdater.on('update-downloaded', () => {
+    winMain.webContents.send('updates_done');
 });
