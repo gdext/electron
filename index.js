@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { autoUpdater } = require('electron-updater');
 let winMain;
 
 function createWindow() {
@@ -15,6 +16,9 @@ function createWindow() {
     win.maximize();
     Menu.setApplicationMenu(null);
     winMain = win;
+
+    //check for updates
+    autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.whenReady().then(createWindow);
