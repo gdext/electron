@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const tasklist = require('tasklist');
 
 window.addEventListener('electronApi', e => {
     if(e.detail == 'openDevTools') ipcRenderer.invoke('openDevTools');
@@ -30,6 +31,7 @@ window.addEventListener('load', () => {
             if (p.imageName == "GeometryDash.exe") return true;
         return false;
     }
+    if(!window.gdext) window.gdext = {};
     window.gdext.isGdRunning = false;
     setInterval(() => {
         checkGD().then(r => {
