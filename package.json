@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "discord-rpc": "^3.2.0",
-    "electron-updater": "^4.3.5"
+    "electron-updater": "^4.3.5",
+    "tasklist": "^4.0.1"
   }
 }
