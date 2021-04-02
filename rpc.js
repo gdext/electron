@@ -16,13 +16,13 @@ module.exports = function RPC(clientId, opts) {
         let state = "";
 
         switch (this.opts.verb) {
-            case "edit": state = "Editing"; break;
-            case "new":  state = "Creating a new level"; break;
+            case "edit": state = "Editing a Level"; break;
+            case "new":  state = "Creating a New Level"; break;
             case "idle": state = "Idling"; break;
         }
 
         let act = {
-            details: state + (this.opts.level ? ` '${this.opts.level}'` : ""),
+            details: state,
             startTimestamp: this.start,
             largeImageKey: 'logo',
             largeImageText: 'GDExt',
@@ -30,7 +30,7 @@ module.exports = function RPC(clientId, opts) {
             smallImageText: state,
         };
 
-        if (this.opts.objects) act.state = this.opts.objects + (this.opts.objects == 1 ? " Object" : " Objects");
+        if (this.opts.level) act.state = this.opts.level;
 
         this.rpc.setActivity(act);
     }
