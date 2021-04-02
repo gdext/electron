@@ -31,9 +31,19 @@ window.addEventListener('load', () => {
             if (p.imageName == "GeometryDash.exe") return true;
         return false;
     }
+    //rich presence
+    function generateRPC() {
+        let obj = {
+            verb: 'edit',
+            level: 'GDExt Level'
+        }
+        if(parseInt(localStorage.getItem('lvlnumber')) < 0) obj.verb = 'new';
+        return obj;
+    }
     if(!window.gdext) window.gdext = {};
     window.gdext.isGdRunning = false;
     setInterval(() => {
+        ipcRenderer.invoke('updateRPC', generateRPC());
         checkGD().then(r => {
             if (r)
                 window.gdext.isGdRunning = true;

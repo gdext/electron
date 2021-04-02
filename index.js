@@ -1,5 +1,9 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const RPC = new require('./rpc');
+let discordRpc = new RPC('827268290417131540', {
+    verb: "idle", // edit | new | idle
+});
 let winMain;
 
 function createWindow() {
@@ -42,6 +46,9 @@ ipcMain.handle('checkUpdates', () => {
 });
 ipcMain.handle('restartApp', () => {
     autoUpdater.quitAndInstall();
+});
+ipcMain.handle('updateRPC', (e, obj) => {
+    discordRpc.opts = obj;
 });
 
 autoUpdater.on('update-availible', () => {
