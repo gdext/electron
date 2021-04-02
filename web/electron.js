@@ -1,12 +1,11 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
+const tasklist = require('tasklist');
 
 window.addEventListener('electronApi', e => {
     if(e.detail == 'openDevTools') ipcRenderer.invoke('openDevTools');
     else if(e.detail == 'toggleFullscreen') ipcRenderer.invoke('toggleFullscreen');
     else if(e.detail == 'reload') window.location.reload();
-    else if(e.detail == 'quit') {
-        if(confirm('Are you sure you want to quit?')) window.close();
-    }
+    else if(e.detail == 'quit') window.close();
 });
 
 ipcRenderer.on('updates', () => {
@@ -25,4 +24,21 @@ ipcRenderer.on('updates_done', () => {
 window.addEventListener('load', () => {
     ipcRenderer.invoke('checkUpdates');
     console.log('checking for updates...');
+
+    //is-gd-running loop
+    async function checkGD() {
+        for (let p of await tasklist())
+            if (p.imageName == "GeometryDash.exe") return true;
+        return false;
+    }
+    if(!window.gdext) window.gdext = {};
+    window.gdext.isGdRunning = false;
+    setInterval(() => {
+        checkGD().then(r => {
+            if (r)
+                window.gdext.isGdRunning = true;
+            else
+                window.gdext.isGdRunning = false;
+        });
+    }, 5000);
 });
