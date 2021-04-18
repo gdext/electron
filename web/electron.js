@@ -45,10 +45,11 @@ window.addEventListener('load', () => {
     setInterval(() => {
         ipcRenderer.invoke('updateRPC', generateRPC());
         checkGD().then(r => {
-            if (r)
-                window.gdext.isGdRunning = true;
-            else
-                window.gdext.isGdRunning = false;
+            if(r != window.gdext.isGdRunning) {
+                let event = new CustomEvent('gdRunningStateChange', { detail: r });
+                dispatchEvent(event);
+            }
+            window.gdext.isGdRunning = r;
         });
     }, 5000);
 });
