@@ -20,6 +20,23 @@ function createWindow() {
     win.maximize();
     Menu.setApplicationMenu(null);
     winMain = win;
+    winMain.on('close', e => {
+        closeEvent(winMain, e);
+    });
+}
+
+let eventSent = false;
+let t = setTimeout(() => {}, 1);
+function closeEvent(winMain, e) {
+    if(!eventSent) {
+        winMain.webContents.send('close');
+        e.preventDefault();
+        eventSent = true;
+        clearTimeout(t);
+        t = setTimeout(() => {
+            eventSent = false;
+        }, 1000);
+    }
 }
 
 app.whenReady().then(createWindow);
@@ -29,6 +46,9 @@ app.on('window-all-closed', () => {
 });
 app.on('browser-window-focus', () => {
     winMain = BrowserWindow.getFocusedWindow();
+    winMain.on('close', e => {
+        closeEvent(winMain, e);
+    });
 })
 app.on('activate', () => {
     if(BrowserWindow.getAllWindows().length == 0) createWindow();

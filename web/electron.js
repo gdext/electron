@@ -21,6 +21,16 @@ ipcRenderer.on('updates_done', () => {
     }
 });
 
+ipcRenderer.on('close', () => {
+    console.log(window.gdext.isActuallyClosing);
+    setTimeout(() => {
+        console.log(window.gdext.isActuallyClosing);
+    }, 100);
+    if(window.gdext.isActuallyClosing) window.close();
+    let event = new CustomEvent('action', { detail: 'exit' });
+    dispatchEvent(event);
+});
+
 window.addEventListener('load', () => {
     ipcRenderer.invoke('checkUpdates');
     console.log('checking for updates...');
