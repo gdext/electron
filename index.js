@@ -7,6 +7,8 @@ let discordRpc = new RPC('827268290417131540', {
 let winMain;
 
 function createWindow() {
+    app.allowRendererProcessReuse = false;
+
     const win = new BrowserWindow({
         width: 1280,
         height: 720,
