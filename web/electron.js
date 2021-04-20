@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron');
-const tasklist = require('tasklist');
+const gdext_native = require('./../gdext');
 
 window.addEventListener('electronApi', e => {
     if(e.detail == 'openDevTools') ipcRenderer.invoke('openDevTools');
@@ -35,12 +35,10 @@ window.addEventListener('load', () => {
     ipcRenderer.invoke('checkUpdates');
     console.log('checking for updates...');
 
-    //is-gd-running loop
-    async function checkGD() {
-        for (let p of await tasklist())
-            if (p.imageName == "GeometryDash.exe") return true;
-        return false;
-    }
+    let ret = gdext_native.init();
+    if (ret != null)
+        console.log(`Could not init GDExt-native: ${ret}`);
+
     //rich presence
     function generateRPC() {
         let obj = {
@@ -54,12 +52,12 @@ window.addEventListener('load', () => {
     window.gdext.isGdRunning = false;
     setInterval(() => {
         ipcRenderer.invoke('updateRPC', generateRPC());
-        checkGD().then(r => {
-            if(r != window.gdext.isGdRunning) {
-                let event = new CustomEvent('gdRunningStateChange', { detail: r });
-                dispatchEvent(event);
-            }
-            window.gdext.isGdRunning = r;
-        });
+
+        let r = gdext_native.isGDOpen();
+        if(r != window.gdext.isGdRunning) {
+            let event = new CustomEvent('gdRunningStateChange', { detail: r });
+            dispatchEvent(event);
+        }
+        window.gdext.isGdRunning = r;
     }, 5000);
 });
