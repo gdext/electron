@@ -21,6 +21,16 @@ ipcRenderer.on('updates_done', () => {
     }
 });
 
+ipcRenderer.on('close', () => {
+    console.log(window.gdext.isActuallyClosing);
+    setTimeout(() => {
+        console.log(window.gdext.isActuallyClosing);
+    }, 100);
+    if(window.gdext.isActuallyClosing) window.close();
+    let event = new CustomEvent('action', { detail: 'exit' });
+    dispatchEvent(event);
+});
+
 window.addEventListener('load', () => {
     ipcRenderer.invoke('checkUpdates');
     console.log('checking for updates...');
@@ -31,14 +41,25 @@ window.addEventListener('load', () => {
             if (p.imageName == "GeometryDash.exe") return true;
         return false;
     }
+    //rich presence
+    function generateRPC() {
+        let obj = {
+            verb: 'edit',
+            level: 'GDExt Level'
+        }
+        if(parseInt(localStorage.getItem('lvlnumber')) < 0) obj.verb = 'new';
+        return obj;
+    }
     if(!window.gdext) window.gdext = {};
     window.gdext.isGdRunning = false;
     setInterval(() => {
+        ipcRenderer.invoke('updateRPC', generateRPC());
         checkGD().then(r => {
-            if (r)
-                window.gdext.isGdRunning = true;
-            else
-                window.gdext.isGdRunning = false;
+            if(r != window.gdext.isGdRunning) {
+                let event = new CustomEvent('gdRunningStateChange', { detail: r });
+                dispatchEvent(event);
+            }
+            window.gdext.isGdRunning = r;
         });
     }, 5000);
 });

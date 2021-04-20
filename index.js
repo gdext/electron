@@ -1,5 +1,9 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const RPC = new require('./rpc');
+let discordRpc = new RPC('827268290417131540', {
+    verb: "idle", // edit | new | idle
+});
 let winMain;
 
 function createWindow() {
@@ -16,6 +20,23 @@ function createWindow() {
     win.maximize();
     Menu.setApplicationMenu(null);
     winMain = win;
+    winMain.on('close', e => {
+        closeEvent(winMain, e);
+    });
+}
+
+let eventSent = false;
+let t = setTimeout(() => {}, 1);
+function closeEvent(winMain, e) {
+    if(!eventSent) {
+        winMain.webContents.send('close');
+        e.preventDefault();
+        eventSent = true;
+        clearTimeout(t);
+        t = setTimeout(() => {
+            eventSent = false;
+        }, 1000);
+    }
 }
 
 app.whenReady().then(createWindow);
@@ -25,6 +46,9 @@ app.on('window-all-closed', () => {
 });
 app.on('browser-window-focus', () => {
     winMain = BrowserWindow.getFocusedWindow();
+    winMain.on('close', e => {
+        closeEvent(winMain, e);
+    });
 })
 app.on('activate', () => {
     if(BrowserWindow.getAllWindows().length == 0) createWindow();
@@ -42,6 +66,9 @@ ipcMain.handle('checkUpdates', () => {
 });
 ipcMain.handle('restartApp', () => {
     autoUpdater.quitAndInstall();
+});
+ipcMain.handle('updateRPC', (e, obj) => {
+    discordRpc.opts = obj;
 });
 
 autoUpdater.on('update-availible', () => {

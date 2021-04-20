@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/gdext/electron#readme",
   "devDependencies": {
-    "electron": "^11.0.3"
+    "electron": "^11.1.0"
   },
   "dependencies": {
     "discord-rpc": "^3.2.0",
-    "electron-updater": "^4.3.5",
+    "electron-updater": "^4.3.8",
     "tasklist": "^4.0.1"
   }
 }
