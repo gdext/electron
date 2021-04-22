@@ -43,7 +43,7 @@ window.addEventListener('load', () => {
     function generateRPC() {
         let obj = {
             verb: 'edit',
-            level: 'GDExt Level'
+            level: localStorage.getItem('lvlname') || 'GDExt Level'
         }
         if(parseInt(localStorage.getItem('lvlnumber')) < 0) obj.verb = 'new';
         return obj;
