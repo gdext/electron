@@ -41,7 +41,7 @@ async function openGDLevel(level_name, level_string) {
             },
             {
                 "dll_path": path.join(__dirname, "/../GDExt-attach.dll"),
-                "injector": "injector.exe",
+                "injector": path.join(__dirname, "/../injector.exe"),
                 "url_func": shell.openExternal
             }
         );
