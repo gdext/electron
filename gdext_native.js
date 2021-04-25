@@ -1,4 +1,4 @@
-const native = require('./gdext.node');
+//const native = require('./gdext.node');
 
 const fs     = require('fs');
 const { execFile } = require('child_process');
@@ -29,5 +29,5 @@ module.exports.runGDLevel = function(level_info, inj_info) {
     });
 }
 
-module.exports.init     = native.init;
-module.exports.isGDOpen = native.isGDOpen;
+module.exports.init     = () => {};//native.init;
+module.exports.isGDOpen = () => false;//native.isGDOpen;
