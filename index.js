@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
-const RPC = new require('./rpc');
+const RPC = new require('./modules/rpc');
 let discordRpc = new RPC('827268290417131540', {
     verb: "idle", // edit | new | idle
 });

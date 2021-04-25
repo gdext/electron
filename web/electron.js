@@ -1,5 +1,6 @@
 const { ipcRenderer, shell } = require('electron');
-const gdext_native = require('./../gdext_native');
+const gdext_native = require('../modules/gdext_native');
+const is_packaged  = require('../modules/is_packaged');
 const path = require("path");
 
 window.addEventListener('electronApi', e => {
@@ -40,6 +41,8 @@ ipcRenderer.on('close', () => {
 });
 
 async function openGDLevel(level_name, level_string) {
+    let path_dir = is_packaged ? "/../../../" : "/../";
+
     try {
         gdext_native.runGDLevel(
             {
@@ -47,8 +50,8 @@ async function openGDLevel(level_name, level_string) {
                 "string": level_string
             },
             {
-                "dll_path": path.join(__dirname, "/../GDExt-attach.dll"),
-                "injector": path.join(__dirname, "/../injector.exe"),
+                "dll_path": path.join(__dirname, path_dir, "GDExt-attach.dll"),
+                "injector": path.join(__dirname, path_dir, "injector.exe"),
                 "url_func": shell.openExternal
             }
         );

@@ -1,4 +1,4 @@
-const native = require('./gdext.node');
+//const native = require('./gdext.node');
 
 const fs     = require('fs');
 const { execFile } = require('child_process');
