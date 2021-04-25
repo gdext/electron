@@ -10,6 +10,13 @@
     "deploy": "npx electron-builder --win --publish never",
     "publish": "npx electron-builder --win --publish always"
   },
+  "build": {
+    "extraFiles": [
+      "injector.exe",
+      "gdext.dll",
+      "GDExt-attach.dll"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gdext/electron.git"
