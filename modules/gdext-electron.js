@@ -1,4 +1,4 @@
-const { ipcRenderer, shell } = require('electron');
+const { ipcRenderer, shell, webFrame } = require('electron');
 const gdext_native = require('../modules/gdext_native');
 const is_packaged  = require('../modules/is_packaged');
 const path = require("path");
@@ -14,6 +14,8 @@ window.addEventListener('electronApi', e => {
             e.detail.name,
             e.detail.data
         ).catch(console.err);
+    } else if(typeof e.detail == 'object' && e.detail.detail == 'setZoom') {
+        webFrame.setZoomFactor(e.detail.zoom || 1);
     }
 });
 
@@ -91,3 +93,8 @@ window.addEventListener('load', () => {
         window.gdext.isGdRunning = r;
     }, 5000);
 });
+
+//settings
+let zoomLevels = [0.5, 0.67, 0.75, 0.8, 0.9, 1, 1.1, 1.25, 1.5, 1.75, 2];
+let zoomSel = parseInt(localStorage.getItem('settings.guiZoom') || 5);
+webFrame.setZoomFactor(zoomLevels[zoomSel] || 1);
