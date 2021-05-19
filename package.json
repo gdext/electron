@@ -6,11 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "npx electron-builder --dir  --publish never",
+    "build": "npx electron-builder --win --publish never",
     "deploy": "npx electron-builder --win --publish never",
     "publish": "npx electron-builder --win --publish always"
   },
   "build": {
+    "productName": "GDExt",
+    "nsis": {
+      "artifactName": "GDExt.${version}.Installer.${ext}",
+      "uninstallDisplayName": "GDExt"
+    },
     "extraFiles": [
       "injector.exe",
       "gdext.dll",

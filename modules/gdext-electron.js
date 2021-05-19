@@ -62,6 +62,11 @@ async function openGDLevel(level_name, level_string) {
     }
 }
 
+function pickFilesElectron(opt) {
+    let path = ipcRenderer.sendSync('pickFiles', [opt]);
+    return path;
+}
+
 window.addEventListener('load', () => {
     ipcRenderer.invoke('checkUpdates');
     console.log('checking for updates...');
@@ -92,6 +97,8 @@ window.addEventListener('load', () => {
         }
         window.gdext.isGdRunning = r;
     }, 5000);
+
+    window.gdext.pickFilesElectron = pickFilesElectron;
 });
 
 //settings
