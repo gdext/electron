@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const RPC = new require('./modules/rpc');
 let discordRpc = new RPC('827268290417131540', {
@@ -71,6 +71,10 @@ ipcMain.handle('restartApp', () => {
 });
 ipcMain.handle('updateRPC', (e, obj) => {
     discordRpc.opts = obj;
+});
+ipcMain.on('pickFiles', (e, obj) => {
+    let r = dialog.showOpenDialogSync(winMain, obj[0]);
+    e.returnValue = r ? r[0] : null;
 });
 
 autoUpdater.on('update-availible', () => {
