@@ -11,8 +11,18 @@ module.exports.runGDLevel = function(level_info, inj_info) {
             "dll_path": inj_info.dll_path
         };
 
+        let official_song, ng_song;
+
+        if (level_info.official_song) {
+            official_song = level_info.song;
+            ng_song       = 0;
+        } else {
+            ng_song       = level_info.song;
+            official_song = 0;
+        }
+
         try {
-            fs.writeFileSync(`${process.env.APPDATA}\\gdext\\level.dat`, `${name_b64}§${level_info.string}`);
+            fs.writeFileSync(`${process.env.APPDATA}\\gdext\\level.dat`, `${name_b64}§${level_info.string}§${official_song}§${ng_song}`);
             fs.writeFileSync(`${process.env.APPDATA}\\gdext\\injector.json`, JSON.stringify(inj));
         } catch (e) {
             reject();
@@ -29,5 +39,5 @@ module.exports.runGDLevel = function(level_info, inj_info) {
     });
 }
 
-module.exports.init     = native.init;
+module.exports.init = () => {};
 module.exports.isGDOpen = native.isGDOpen;
