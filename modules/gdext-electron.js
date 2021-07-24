@@ -10,10 +10,11 @@ window.addEventListener('electronApi', e => {
     else if(e.detail == 'quit') window.close();
     else if(typeof e.detail == 'object' && e.detail.detail == 'loadLevel') {
         console.log(e.detail);
-        openGDLevel(
-            e.detail.name,
-            e.detail.data
-        ).catch(console.err);
+        openGDLevel({
+            name: e.detail.name,
+            string: e.detail.data,
+            song: e.detail.song,
+        }).catch(console.err);
     } else if(typeof e.detail == 'object' && e.detail.detail == 'setZoom') {
         webFrame.setZoomFactor(e.detail.zoom || 1);
     }
@@ -42,16 +43,16 @@ ipcRenderer.on('close', () => {
     dispatchEvent(event);
 });
 
-async function openGDLevel(level_name, level_string) {
+async function openGDLevel(level) {
     let path_dir = is_packaged ? "/../../../" : "/../";
 
     try {
         gdext_native.runGDLevel(
             {
-                "name":   level_name,
-                "string": level_string,
-                "official_song": true,
-                "song": 0
+                "name":   level.name,
+                "string": level.string,
+                "official_song": !level.song.startsWith('c'),
+                "song": level.song ? (level.song.startsWith('c') ? level.song.slice(1) : level.song - 1) : 0
             },
             {
                 "dll_path": path.join(__dirname, path_dir, "GDExt_Playtest.dll"),
