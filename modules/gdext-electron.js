@@ -1,7 +1,11 @@
+console.log("aaaaaaaaaaaaaa");
+
 const { ipcRenderer, shell, webFrame } = require('electron');
-const gdext_native = require('../modules/gdext_native');
+const gdext_native = require('../modules/gdext-native');
 const is_packaged  = require('../modules/is_packaged');
 const path = require("path");
+
+console.log("thsthsthsrhtsrthsrthsrth");
 
 window.addEventListener('electronApi', e => {
     if(e.detail == 'openDevTools') ipcRenderer.invoke('openDevTools');
@@ -49,10 +53,12 @@ async function openGDLevel(level_name, level_string) {
         gdext_native.runGDLevel(
             {
                 "name":   level_name,
-                "string": level_string
+                "string": level_string,
+                "official_song": true,
+                "song": 0
             },
             {
-                "dll_path": path.join(__dirname, path_dir, "GDExt-attach.dll"),
+                "dll_path": path.join(__dirname, path_dir, "GDExt_Playtest.dll"),
                 "injector": path.join(__dirname, path_dir, "injector.exe"),
                 "url_func": shell.openExternal
             }
