@@ -1,11 +1,7 @@
-console.log("aaaaaaaaaaaaaa");
-
 const { ipcRenderer, shell, webFrame } = require('electron');
 const gdext_native = require('../modules/gdext-native');
 const is_packaged  = require('../modules/is_packaged');
 const path = require("path");
-
-console.log("thsthsthsrhtsrthsrthsrth");
 
 window.addEventListener('electronApi', e => {
     if(e.detail == 'openDevTools') ipcRenderer.invoke('openDevTools');
