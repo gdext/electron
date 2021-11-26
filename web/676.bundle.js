@@ -1,1 +1,0 @@
-(self.webpackChunkgdext_editor=self.webpackChunkgdext_editor||[]).push([[676],{3676:(e,d,f)=>{"use strict";f.r(d),f.d(d,{default:()=>t});const t=f.p+"77c1f002d87f8d4e8f1e3f2f0b621dde.svg"}}]);
