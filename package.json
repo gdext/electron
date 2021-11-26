@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "npx electron-builder --win --publish never",
+    "build": "npm run --prefix editor/ build && npx electron-builder --win --publish never",
     "deploy": "npx electron-builder --win --publish never",
     "publish": "npx electron-builder --win --publish always"
   },
