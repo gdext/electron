@@ -18,7 +18,7 @@ function createWindow() {
         icon: './icon.ico'
     });
 
-    win.loadFile('./web/index.html');
+    win.loadFile('./editor/dist/index.html');
     win.maximize();
     Menu.setApplicationMenu(null);
     winMain = win;
