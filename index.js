@@ -25,6 +25,14 @@ function createWindow() {
     winMain.on('close', e => {
         closeEvent(winMain, e);
     });
+
+    ipcMain.on('min', () => {
+        win.minimize()
+    })
+
+    ipcMain.on('max', () => {
+        win.isMaximized() ? win.unmaximize() : win.maximize()
+    })
 }
 
 let eventSent = false;
