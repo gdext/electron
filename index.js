@@ -12,6 +12,7 @@ function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
         height: 720,
+        frame: false,
         webPreferences: {
             nodeIntegration: true
         },
@@ -25,6 +26,14 @@ function createWindow() {
     winMain.on('close', e => {
         closeEvent(winMain, e);
     });
+
+    ipcMain.on('min', () => {
+        win.minimize()
+    })
+
+    ipcMain.on('max', () => {
+        win.isMaximized() ? win.unmaximize() : win.maximize()
+    })
 }
 
 let eventSent = false;
